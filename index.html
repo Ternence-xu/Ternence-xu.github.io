@@ -174,46 +174,10 @@
         <ul>
 <li>1.官网下载OpenCV最新版(version:3.1.0—Linux)</li>
 <li>2.在home文件夹下创建一个openCV的文件夹，将下载好的zip格式的OpenCV放在此目录下  </li>
-<li><ol>
-<li>确认是否有安装cmake,如果没有安装，请前往<a href="https://cmake.org/download/" target="_blank" rel="external">https://cmake.org/download/</a>下载安装，下载之后放在home文件夹下，输入<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">tar zxvf cmake(文件名)</div></pre></td></tr></table></figure>
-</li>
-</ol>
-</li>
-</ul>
-<p>然后就进入解压目录,执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">./bootstrap</div></pre></td></tr></table></figure></p>
-<p>完成之后执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make</div></pre></td></tr></table></figure></p>
-<p>等待编译完成，完成之后执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make  install</div></pre></td></tr></table></figure></p>
-<p>(cmake安装完成了)，执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cmake -<span class="built_in">help</span></div></pre></td></tr></table></figure></p>
-<p>可以查看相关信息</p>
-<ul>
-<li>4.进入opencv的解压目录之后，执行<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cmake CMakeLists.txt</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>命令之后，(这个是必须要先执行的，不然后面那个downloads文件夹是不会出来的)会出现错误原因是有些包没有安装好。出现的错误是无法下载ippicv_linux_20151201.tgz.这个文件，(我估计如果是低版本的话，应该不会出现这种问题吧),将这个文件替换到相应的文件下（我的文件夹是在这个目录(/home/openCV/opencv-3.1.0/3rdparty/ippicv/downloads/linux-808b791a6eac9ed78d32a7666804320e)）,替换之后，重新执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">cmake CMakeLists.txt</div></pre></td></tr></table></figure></p>
-<p>命令，无错，接着执行make命令，进行编译，等到编译完成(漫长的编译过程)，编译完成之后，执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">make install</div></pre></td></tr></table></figure></p>
-<ul>
-<li>5.编译完成之后，Opencv的头文件在<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/<span class="built_in">local</span>/include</div></pre></td></tr></table></figure>
-</li>
-</ul>
-<p>目录下;库文件在<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/<span class="built_in">local</span>/lib</div></pre></td></tr></table></figure></p>
-<p>目录下；执行<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">cd</span> /etc/ld.so.conf.d</div></pre></td></tr></table></figure></p>
-<p>进入库文件环境变量配置文件夹；<br><br>新建文件<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">vi opencv.conf</div></pre></td></tr></table></figure></p>
-<p>添加内容<br><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">/usr/<span class="built_in">local</span>/lib</div></pre></td></tr></table></figure></p>
-<ul>
-<li><p>6.加载库文件配置；执行</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">ldconfig</div></pre></td></tr></table></figure>
-</li>
-<li><p>7.环境变量 在etc目录下，执行命令： vi bashrc；然后在文本的最后添加</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">PKG_CONFIG_PATH=<span class="variable">$PKG_CONFIG_PATH</span>:/usr/<span class="built_in">local</span>/lib/pkgconfig</div><div class="line"><span class="built_in">export</span> PKG_CONFIG_PATH</div></pre></td></tr></table></figure>
-</li>
-<li><p>8.同样在etc目录下执行命令：</p>
-<figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="built_in">source</span> /etc/bashrc</div></pre></td></tr></table></figure>
-</li>
-<li><p>9.编写一个例子进行测试是否能使用<br><br>例子参照如下：</p>
-</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;string&gt;</span></span></div><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;opencv2/opencv.hpp&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> cv;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">(<span class="keyword">int</span> argc, <span class="keyword">char</span>** argv)</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">	Mat image;</div><div class="line">	image = imread(<span class="string">"lena.jpg"</span>);</div><div class="line"></div><div class="line">	<span class="keyword">if</span> (!image.data)</div><div class="line">	&#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"No image data"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">		<span class="keyword">return</span> <span class="number">-1</span>;</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span> &#123;</div><div class="line">		<span class="built_in">cout</span> &lt;&lt; <span class="string">"this is a image"</span> &lt;&lt; <span class="built_in">endl</span>;</div><div class="line">	&#125;</div><div class="line">	Mat img, dst;</div><div class="line">	<span class="function"><span class="built_in">string</span> <span class="title">rst</span><span class="params">(<span class="number">64</span>, <span class="string">' '</span>)</span></span>;</div><div class="line">	<span class="keyword">double</span> dIdex[<span class="number">64</span>];</div><div class="line">	<span class="keyword">double</span> mean = <span class="number">0.0</span>;</div><div class="line">	<span class="keyword">int</span> k = <span class="number">0</span>;</div><div class="line">	<span class="keyword">if</span> (image.channels() == <span class="number">3</span>)</div><div class="line">	&#123;</div><div class="line">		cvtColor(image, image, CV_BGR2GRAY);</div><div class="line">		img = Mat_&lt;<span class="keyword">double</span>&gt;(image);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">else</span></div><div class="line">	&#123;</div><div class="line">		img = Mat_&lt;<span class="keyword">double</span>&gt;(image);</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/* 第一步，缩放尺寸，可以为Size(32,32)或Size(8,8)，也可以更高，主要是为了提高计算效率CV_BGR2GRAY*/</span></div><div class="line">	resize(img, img, Size(<span class="number">32</span>, <span class="number">32</span>));</div><div class="line"></div><div class="line">	<span class="comment">/* 第二步，离散余弦变换，DCT系数求取*/</span></div><div class="line">	dct(img, dst);</div><div class="line"></div><div class="line">	<span class="comment">/* 第三步，求取DCT系数均值（左上角8*8区块的DCT系数）*/</span></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">8</span>; ++i) &#123;</div><div class="line">		<span class="keyword">for</span> (<span class="keyword">int</span> j = <span class="number">0</span>; j &lt; <span class="number">8</span>; ++j)</div><div class="line">		&#123;</div><div class="line">			dIdex[k] = dst.at&lt;<span class="keyword">double</span>&gt;(i, j);</div><div class="line">			mean += dst.at&lt;<span class="keyword">double</span>&gt;(i, j) / <span class="number">64</span>;</div><div class="line">			++k;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line"></div><div class="line">	<span class="comment">/* 第四步，计算哈希值。*/</span></div><div class="line">	<span class="keyword">for</span> (<span class="keyword">int</span> i = <span class="number">0</span>; i &lt; <span class="number">64</span>; ++i)</div><div class="line">	&#123;</div><div class="line">		<span class="keyword">if</span> (dIdex[i] &gt;= mean)</div><div class="line">		&#123;</div><div class="line">			rst[i] = <span class="string">'1'</span>;</div><div class="line">		&#125;</div><div class="line">		<span class="keyword">else</span></div><div class="line">		&#123;</div><div class="line">			rst[i] = <span class="string">'0'</span>;</div><div class="line">		&#125;</div><div class="line">	&#125;</div><div class="line">	<span class="built_in">cout</span> &lt;&lt; rst &lt;&lt; <span class="built_in">endl</span>;</div><div class="line"></div><div class="line">	<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+<li>3.确认是否有安装cmake,如果没有安装，请前往<a href="https://cmake.org/download/" target="_blank" rel="external">https://cmake.org/download/</a>下载安装，下载之后放在home文件夹下，输入
+        
+          <a class="article-more-a" href="/2017/10/28/opencv_install/#more">more >></a>
+        
       
 
       
@@ -221,82 +185,22 @@
     <div class="article-info article-info-index">
       
       
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux,opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
       
 
       
         <p class="article-more-link">
           <a class="article-more-a" href="/2017/10/28/opencv_install/">展开全文 >></a>
-        </p>
-      
-
-      
-      <div class="clearfix"></div>
-    </div>
-  </div>
-</article>
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-
-  
-    <article id="post-hello-world" class="article article-type-post  article-index" itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/10/28/hello-world/">Hello World</a>
-    </h1>
-  
-
-        
-        <a href="/2017/10/28/hello-world/" class="archive-article-date">
-  	<time datetime="2017-10-28T01:12:53.548Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-      
-
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
-      
-
-      
-        <p class="article-more-link">
-          <a class="article-more-a" href="/2017/10/28/hello-world/">展开全文 >></a>
         </p>
       
 
@@ -417,6 +321,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux opencv</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux,opencv</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
