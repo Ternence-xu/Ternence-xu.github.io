@@ -8,17 +8,17 @@
   <link rel="dns-prefetch" href="http://yoursite.com">
   <title>单例模式(饿汉和懒汉)C++ | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="##普通的单例模式(线程不安全) 下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
+  <meta name="description" content="##普通的单例模式(线程不安全)## 下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
 <meta name="keywords" content="C++,单例模式">
 <meta property="og:type" content="article">
 <meta property="og:title" content="单例模式(饿汉和懒汉)C++">
 <meta property="og:url" content="http://yoursite.com/2017/11/04/Singleton/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="##普通的单例模式(线程不安全) 下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
-<meta property="og:updated_time" content="2017-11-04T08:55:51.888Z">
+<meta property="og:description" content="##普通的单例模式(线程不安全)## 下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
+<meta property="og:updated_time" content="2017-11-04T08:58:16.167Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="单例模式(饿汉和懒汉)C++">
-<meta name="twitter:description" content="##普通的单例模式(线程不安全) 下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
+<meta name="twitter:description" content="##普通的单例模式(线程不安全)## 下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -170,7 +170,7 @@
     
     <div class="article-entry" itemprop="articleBody">
       
-        <p>##普通的单例模式(线程不安全)</p>
+        <p>##普通的单例模式(线程不安全)##</p>
 <p><font face="微软雅黑" size="3" color="black">下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。</font><br><a id="more"></a><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">	singleton()&#123;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">static</span> singleton* g_singleton;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="function"><span class="keyword">static</span> singleton* <span class="title">GetInstance</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line">singleton* singleton::g_singleton = <span class="literal">NULL</span>;</div><div class="line">singleton* singleton::GetInstance()</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(p_singleton==<span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		p = <span class="keyword">new</span> singleton();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> p;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
 <p>##懒汉和饿汉</p>
 <p><font face="微软雅黑" size="3" color="black">单例模式大致有两种实现方式：懒汉和饿汉</font></p>
@@ -415,11 +415,11 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
           <ul class="article-tag-list" q-show="showTags">
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color3">Linux,opencv</a>
+                <a href="javascript:void(0)" class="js-tag color4">C++,单例模式</a>
               </li>
              
               <li class="article-tag-list-item">
-                <a href="javascript:void(0)" class="js-tag color4">C++,单例模式</a>
+                <a href="javascript:void(0)" class="js-tag color3">Linux,opencv</a>
               </li>
             
             <div class="clearfix"></div>
