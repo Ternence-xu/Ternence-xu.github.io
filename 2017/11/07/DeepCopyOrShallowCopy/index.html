@@ -6,14 +6,19 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>Tag: C++,单例模式 | Hexo</title>
+  <title>深拷贝与浅拷贝 | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta property="og:type" content="website">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/tags/C-单例模式/index.html">
+  <meta name="description" content="转载自http://www.cnblogs.com/BlueTzar/articles/1223313.html博客网对于普通类型的对象来说，它们之间的复制是很简单的，例如：">
+<meta name="keywords" content="C++,拷贝">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深拷贝与浅拷贝">
+<meta property="og:url" content="http://yoursite.com/2017/11/07/DeepCopyOrShallowCopy/index.html">
 <meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="转载自http://www.cnblogs.com/BlueTzar/articles/1223313.html博客网对于普通类型的对象来说，它们之间的复制是很简单的，例如：">
+<meta property="og:updated_time" content="2018-03-26T07:25:46.700Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Hexo">
+<meta name="twitter:title" content="深拷贝与浅拷贝">
+<meta name="twitter:description" content="转载自http://www.cnblogs.com/BlueTzar/articles/1223313.html博客网对于普通类型的对象来说，它们之间的复制是很简单的，例如：">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -145,60 +150,173 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            
-  
-  
+            <article id="post-DeepCopyOrShallowCopy" class="article article-type-post " itemscope itemprop="blogPost">
+  <div class="article-inner">
     
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      	<div class="article-meta">
-	      	<a href="/2017/11/04/Singleton/" class="archive-article-date">
-  	<time datetime="2017-11-04T07:58:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-04</time>
-</a>
-        </div>
-    	 
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/11/04/Singleton/">单例模式(饿汉和懒汉)C++</a>
+    <h1 class="article-title" itemprop="name">
+      深拷贝与浅拷贝
     </h1>
   
 
-        <div class="article-info info-on-right">
-          
+        
+        <a href="/2017/11/07/DeepCopyOrShallowCopy/" class="archive-article-date">
+  	<time datetime="2017-11-07T08:50:22.465Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-07</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><font face="微软雅黑" size="2" color="black"><br>转载自<a href="http://www.cnblogs.com/BlueTzar/articles/1223313.html博客网" target="_blank" rel="external">http://www.cnblogs.com/BlueTzar/articles/1223313.html博客网</a><br>对于普通类型的对象来说，它们之间的复制是很简单的，例如：<br><a id="more"></a><br>int a=88;<br>int b=a;<br>而类对象与普通对象不同，类对象内部结构一般较为复杂，存在各种成员变量。下面看一个类对象拷贝的简单例子。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CExample</span> &#123;</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    　<span class="keyword">int</span> a;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    　CExample(<span class="keyword">int</span> b)</div><div class="line">    　&#123; a=b;&#125;</div><div class="line">    　<span class="function"><span class="keyword">void</span> <span class="title">Show</span> <span class="params">()</span></span></div><div class="line"><span class="function">    　</span>&#123;</div><div class="line">        <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    　<span class="function">CExample <span class="title">A</span><span class="params">(<span class="number">100</span>)</span></span>;</div><div class="line">    　CExample B=A;</div><div class="line">    　B.Show ();</div><div class="line">    　<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></font></p>
+<p>运行程序，屏幕输出100。从以上代码的运行结果可以看出，系统为对象B分配了内存并完成了与对象A的复制过程。就类对象而言，相同类型的类对象是通过拷贝构造函数来完成整个复制过程的。下面举例说明拷贝构造函数的工作过程。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"></div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CExample</span> &#123;</span></div><div class="line"><span class="keyword">private</span>:</div><div class="line">    <span class="keyword">int</span> a;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    CExample(<span class="keyword">int</span> b)</div><div class="line">    &#123; a=b;&#125;</div><div class="line">    </div><div class="line">    CExample(<span class="keyword">const</span> CExample&amp; C)</div><div class="line">    &#123;</div><div class="line">        a=C.a;</div><div class="line">    &#125;</div><div class="line">    <span class="function"><span class="keyword">void</span> <span class="title">Show</span> <span class="params">()</span></span></div><div class="line"><span class="function">    </span>&#123;</div><div class="line">        <span class="built_in">cout</span>&lt;&lt;a&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">    <span class="function">CExample <span class="title">A</span><span class="params">(<span class="number">100</span>)</span></span>;</div><div class="line">    CExample B=A;</div><div class="line">    B.Show ();</div><div class="line">    <span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
+<p>CExample(const CExample&amp; C)就是我们自定义的拷贝构造函数。可见，拷贝构造函数是一种特殊的构造函数，函数的名称必须和类名称一致，它的唯一的一个参数是本类型的一个引用变量，该参数是const类型，不可变的。例如：类X的拷贝构造函数的形式为X(X&amp; x)。<br>当用一个已初始化过了的自定义类类型对象去初始化另一个新构造的对象的时候，拷贝构造函数就会被自动调用。也就是说，当类的对象需要拷贝时，拷贝构造函数将会被调用。以下情况都会调用拷贝构造函数：<br>一个对象以值传递的方式传入函数体<br>一个对象以值传递的方式从函数返回<br>一个对象需要通过另外一个对象进行初始化。<br>如果在类中没有显式地声明一个拷贝构造函数，那么，编译器将会自动生成一个默认的拷贝构造函数，该构造函数完成对象之间的位拷贝。位拷贝又称浅拷贝，后面将进行说明。<br>自定义拷贝构造函数是一种良好的编程风格，它可以阻止编译器形成默认的拷贝构造函数，提高源码效率。</p>
+<p><font face="微软雅黑" size="3" color="black"><br>浅拷贝和深拷贝</font></p>
+<p><font face="微软雅黑" size="2" color="black"><br>在某些状况下，类内成员变量需要动态开辟堆内存，如果实行位拷贝，也就是把对象里的值完全复制给另一个对象，如A=B。这时，如果B中有一个成员变量指针已经申请了内存，那A中的那个成员变量也指向同一块内存。这就出现了问题：当B把内存释放了（如：析构），这时A内的指针就是野指针了，出现运行错误。<br>深拷贝和浅拷贝可以简单理解为：如果一个类拥有资源，当这个类的对象发生复制过程的时候，资源重新分配，这个过程就是深拷贝，反之，没有重新分配资源，就是浅拷贝。下面举个深拷贝的例子。<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#<span class="meta-keyword">include</span> <span class="meta-string">&lt;iostream&gt;</span></span></div><div class="line"><span class="keyword">using</span> <span class="keyword">namespace</span> <span class="built_in">std</span>;</div><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">CA</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line">　<span class="keyword">public</span>:</div><div class="line">　　CA(<span class="keyword">int</span> b,<span class="keyword">char</span>* cstr)</div><div class="line">　　&#123;</div><div class="line">　　　a=b;</div><div class="line">　　　str=<span class="keyword">new</span> <span class="keyword">char</span>[b];</div><div class="line">　　　<span class="built_in">strcpy</span>(str,cstr);</div><div class="line">　　&#125;</div><div class="line">　　CA(<span class="keyword">const</span> CA&amp; C)</div><div class="line">　　&#123;</div><div class="line">　　　a=C.a;</div><div class="line">　　　str=<span class="keyword">new</span> <span class="keyword">char</span>[a]; <span class="comment">//深拷贝</span></div><div class="line">　　　<span class="keyword">if</span>(str!=<span class="number">0</span>)</div><div class="line">　　　　<span class="built_in">strcpy</span>(str,C.str);</div><div class="line">　　&#125;</div><div class="line">　　<span class="function"><span class="keyword">void</span> <span class="title">Show</span><span class="params">()</span></span></div><div class="line"><span class="function">　　</span>&#123;</div><div class="line">　　　<span class="built_in">cout</span>&lt;&lt;str&lt;&lt;<span class="built_in">endl</span>;</div><div class="line">　　&#125;</div><div class="line">　　~CA()</div><div class="line">　　&#123;</div><div class="line">　　　<span class="keyword">delete</span> str;</div><div class="line">　　&#125;</div><div class="line">　<span class="keyword">private</span>:</div><div class="line">　　<span class="keyword">int</span> a;</div><div class="line">　　<span class="keyword">char</span> *str;</div><div class="line">&#125;;</div><div class="line"><span class="function"><span class="keyword">int</span> <span class="title">main</span><span class="params">()</span></span></div><div class="line"><span class="function"></span>&#123;</div><div class="line">　<span class="function">CA <span class="title">A</span><span class="params">(<span class="number">10</span>,<span class="string">"Hello!"</span>)</span></span>;</div><div class="line">　CA B=A;</div><div class="line">　B.Show();</div><div class="line">　<span class="keyword">return</span> <span class="number">0</span>;</div><div class="line">&#125;</div></pre></td></tr></table></figure></font></p>
+<p>深拷贝和浅拷贝的定义可以简单理解成：如果一个类拥有资源(堆，或者是其它系统资源)，当这个类的对象发生复制过程的时候，这个过程就可以叫做深拷贝，反之对象存在资源，但复制过程并未复制资源的情况视为浅拷贝。<br>浅拷贝资源后在释放资源的时候会产生资源归属不清的情况导致程序运行出错。<br>Test(Test &amp;c_t)是自定义的拷贝构造函数，拷贝构造函数的名称必须与类名称一致，函数的形式参数是本类型的一个引用变量,且必须是引用。<br>当用一个已经初始化过了的自定义类类型对象去初始化另一个新构造的对象的时候，拷贝构造函数就会被自动调用，如果你没有自定义拷贝构造函数的时候，系统将会提供给一个默认的拷贝构造函数来完成这个过程，上面代码的复制核心语句就是通过Test(Test &amp;c_t)拷贝构造函数内的p1=c_t.p1;语句完成的。</p>
+<p>来总结一下关于 深拷贝与浅拷贝需要知道的基本概念和知识：<br>（1）什么时候用到拷贝函数？<br>  a.一个对象以值传递的方式传入函数体；<br>  b.一个对象以值传递的方式从函数返回；<br>  c.一个对象需要通过另外一个对象进行初始化。<br>如果在类中没有显式地声明一个拷贝构造函数，那么，编译器将会自动生成一个默认的拷贝构造函数，该构造函数完成对象之间的位拷贝。位拷贝又称浅拷贝<br>（2）是否应该自定义拷贝函数？<br> 自定义拷贝构造函数是一种良好的编程风格，它可以阻止编译器形成默认的拷贝构造函数，提高源码效率。<br>（3）什么叫深拷贝？什么是浅拷贝？两者异同？<br>深如果一个类拥有资源，当这个类的对象发生复制过程的时候，资源重新分配，这个过程就是深拷贝，反之，没有重新分配资源，就是浅拷贝。<br>（4）深拷贝好还是浅拷贝好？<br>如果实行位拷贝，也就是把对象里的值完全复制给另一个对象，如A=B。这时，如果B中有一个成员变量指针已经申请了内存，那A中的那个成员变量也指向同一块内存。这就出现了问题：当B把内存释放了（如：析构），这时A内的指针就是野指针了，出现运行错误。</p>
+
+      
+
+      
+        <div class="page-reward">
+          <a href="javascript:;" class="page-reward-btn tooltip-top">
+            <div class="tooltip tooltip-east">
+            <span class="tooltip-item">
+              赏
+            </span>
+            <span class="tooltip-content">
+              <span class="tooltip-text">
+                <span class="tooltip-inner">
+                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
+                  <div class="reward-box">
+                    
+                    
+                  </div>
+                </span>
+              </span>
+            </span>
+          </div>
+          </a>
+        </div>
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++,单例模式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color2">C++,拷贝</a>
         		</li>
       		
 		</ul>
 	</div>
 
-          
+      
 
+      
+
+      
+        
+<div class="share-btn share-icons tooltip-left">
+  <div class="tooltip tooltip-east">
+    <span class="tooltip-item">
+      <a href="javascript:;" class="share-sns share-outer">
+        <i class="icon icon-share"></i>
+      </a>
+    </span>
+    <span class="tooltip-content">
+      <div class="share-wrap">
+        <div class="share-icons">
+          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
+            <i class="icon icon-weibo"></i>
+          </a>
+          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
+            <i class="icon icon-weixin"></i>
+          </a>
+          <a class="qq share-sns" href="javascript:;" data-type="qq">
+            <i class="icon icon-qq"></i>
+          </a>
+          <a class="douban share-sns" href="javascript:;" data-type="douban">
+            <i class="icon icon-douban"></i>
+          </a>
+          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
+            <i class="icon icon-qzone"></i>
+          </a>
+          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
+            <i class="icon icon-facebook"></i>
+          </a>
+          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
+            <i class="icon icon-twitter"></i>
+          </a>
+          <a class="google share-sns" href="javascript:;" data-type="google">
+            <i class="icon icon-google"></i>
+          </a>
         </div>
-        <div class="clearfix"></div>
-    </header>
+      </div>
+    </span>
+  </div>
+</div>
+
+<div class="page-modal wx-share js-wx-box">
+    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
+    <p>扫一扫，分享到微信</p>
+    <div class="wx-qrcode">
+      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/07/DeepCopyOrShallowCopy/" alt="微信分享二维码">
+    </div>
+</div>
+
+<div class="mask js-mask"></div>
+      
+      <div class="clearfix"></div>
+    </div>
   </div>
 </article>
+
+  
+<nav id="article-nav">
   
   
-    </div></section>
+    <a href="/2017/11/04/Singleton/" id="article-nav-older" class="article-nav-link-wrap">
+      <div class="article-nav-title">单例模式(饿汉和懒汉)C++</div>
+      <i class="icon-circle-right"></i>
+    </a>
+  
+</nav>
+
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+  
+  
   
 
-    
+  
+
+  
+
+  
 
 
           </div>
@@ -221,9 +339,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: false,
+		isPost: true,
 		isArchive: false,
-		isTag: true,
+		isTag: false,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,
