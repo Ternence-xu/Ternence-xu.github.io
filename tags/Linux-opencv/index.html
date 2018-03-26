@@ -6,19 +6,14 @@
   <meta name="renderer" content="webkit">
   <meta http-equiv="X-UA-Compatible" content="IE=edge" >
   <link rel="dns-prefetch" href="http://yoursite.com">
-  <title>单例模式(饿汉和懒汉)C++ | Hexo</title>
+  <title>Tag: Linux,opencv | Hexo</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="普通的单例模式(线程不安全)下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
-<meta name="keywords" content="C++,单例模式">
-<meta property="og:type" content="article">
-<meta property="og:title" content="单例模式(饿汉和懒汉)C++">
-<meta property="og:url" content="http://yoursite.com/2017/11/04/Singleton/index.html">
+  <meta property="og:type" content="website">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/tags/Linux-opencv/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="普通的单例模式(线程不安全)下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
-<meta property="og:updated_time" content="2017-11-04T09:07:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="单例模式(饿汉和懒汉)C++">
-<meta name="twitter:description" content="普通的单例模式(线程不安全)下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。">
+<meta name="twitter:title" content="Hexo">
   
     <link rel="alternative" href="/atom.xml" title="Hexo" type="application/atom+xml">
   
@@ -150,193 +145,60 @@
             <canvas data-colors="#eaeaea" data-sectionHeight="100" data-contentId="js-content" id="myCanvas1" class="anm-canvas"></canvas>
           </div>
           <div id="js-content" class="content-ll">
-            <article id="post-Singleton" class="article article-type-post " itemscope itemprop="blogPost">
-  <div class="article-inner">
-    
-      <header class="article-header">
-        
+            
   
-    <h1 class="article-title" itemprop="name">
-      单例模式(饿汉和懒汉)C++
+  
+    
+    
+      
+      
+      <section class="archives-wrap">
+        <div class="archive-year-wrap">
+          <a href="/archives/2017" class="archive-year">2017</a>
+        </div>
+        <div class="archives">
+    
+    <article class="archive-article archive-type-post">
+  <div class="archive-article-inner">
+    <header class="archive-article-header">
+      	<div class="article-meta">
+	      	<a href="/2017/10/28/opencv_install/" class="archive-article-date">
+  	<time datetime="2017-10-28T02:45:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
+</a>
+        </div>
+    	 
+  
+    <h1 itemprop="name">
+      <a class="archive-article-title" href="/2017/10/28/opencv_install/">Linux下安装OpenCV（Redhat+OpenCV3.1）</a>
     </h1>
   
 
-        
-        <a href="/2017/11/04/Singleton/" class="archive-article-date">
-  	<time datetime="2017-11-04T07:58:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-04</time>
-</a>
-        
-      </header>
-    
-    <div class="article-entry" itemprop="articleBody">
-      
-        <p><font face="微软雅黑" size="3" color="black"></font></p>
-<h2 id="普通的单例模式-线程不安全"><a href="#普通的单例模式-线程不安全" class="headerlink" title="普通的单例模式(线程不安全)"></a>普通的单例模式(线程不安全)</h2><p>下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。<br><a id="more"></a><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">	singleton()&#123;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">static</span> singleton* g_singleton;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="function"><span class="keyword">static</span> singleton* <span class="title">GetInstance</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line">singleton* singleton::g_singleton = <span class="literal">NULL</span>;</div><div class="line">singleton* singleton::GetInstance()</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(p_singleton==<span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		p = <span class="keyword">new</span> singleton();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> p;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<h2 id="懒汉和饿汉"><a href="#懒汉和饿汉" class="headerlink" title="懒汉和饿汉"></a>懒汉和饿汉</h2><p>单例模式大致有两种实现方式：懒汉和饿汉</p>
-<ul>
-<li>懒汉模式： 懒汉模式就是说不到万不得已就不会去实例化类，也就是说在第一次用到类实例的时候才会去实例化，所以上边的经典方法被归为懒汉实现；</li>
-<li>饿汉模式： 饿汉模式就是在单例类定义的时候进行实例化。<br><font color="red">特点和选择</font></li>
-<li>线程比较多的时候,适合使用饿汉模式,以空间换时间</li>
-<li>线程比较少的时候,适合使用懒汉模式,以时间换空间</li>
-</ul>
-<h2 id="懒汉-线程安全"><a href="#懒汉-线程安全" class="headerlink" title="懒汉(线程安全)"></a>懒汉(线程安全)</h2><ul>
-<li>no.1 加锁</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">	singleton()</div><div class="line">	&#123;</div><div class="line">		pthread_mutex_init(&amp;mutex);</div><div class="line">	&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">static</span> singleton* p;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="keyword">static</span> <span class="keyword">pthread_mutex_t</span> mutex;</div><div class="line">	<span class="function"><span class="keyword">static</span> singleton* <span class="title">initance</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">pthread_mutex_t</span> singleton::mutex;</div><div class="line">singleton* singleton::p = <span class="literal">NULL</span>;</div><div class="line">singleton* singleton::initance()</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (p == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		pthread_mutex_lock(&amp;mutex);</div><div class="line">		<span class="keyword">if</span> (p == <span class="literal">NULL</span>)</div><div class="line">			p = <span class="keyword">new</span> singleton();</div><div class="line">		pthread_mutex_unlock(&amp;mutex);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> p;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<ul>
-<li>no.2 静态变量</li>
-</ul>
-<figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">    singleton()</div><div class="line">    &#123;</div><div class="line">        pthread_mutex_init(&amp;mutex);</div><div class="line">    &#125;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">static</span> <span class="keyword">pthread_mutex_t</span> mutex;</div><div class="line">    <span class="function"><span class="keyword">static</span> singleton* <span class="title">initance</span><span class="params">()</span></span>;</div><div class="line">    <span class="keyword">int</span> a;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">pthread_mutex_t</span> singleton::mutex;</div><div class="line">singleton* singleton::initance()</div><div class="line">&#123;</div><div class="line">    pthread_mutex_lock(&amp;mutex);</div><div class="line">    <span class="keyword">static</span> singleton obj;</div><div class="line">    pthread_mutex_unlock(&amp;mutex);</div><div class="line">    <span class="keyword">return</span> &amp;obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h2 id="饿汉"><a href="#饿汉" class="headerlink" title="饿汉"></a>饿汉</h2><p>饿汉其实本身就是线程安全的,因为在程序运行之前就已经实例化了<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">	singleton()</div><div class="line">	&#123;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">static</span> singleton* p;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="function"><span class="keyword">static</span> singleton* <span class="title">GetInstance</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">singleton* singleton::p = <span class="keyword">new</span> singleton;</div><div class="line">singleton* singleton::GetInstance()</div><div class="line">&#123;</div><div class="line">	<span class="keyword">return</span> p;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
-      
-
-      
-        <div class="page-reward">
-          <a href="javascript:;" class="page-reward-btn tooltip-top">
-            <div class="tooltip tooltip-east">
-            <span class="tooltip-item">
-              赏
-            </span>
-            <span class="tooltip-content">
-              <span class="tooltip-text">
-                <span class="tooltip-inner">
-                  <p class="reward-p"><i class="icon icon-quo-left"></i>谢谢你请我吃糖果<i class="icon icon-quo-right"></i></p>
-                  <div class="reward-box">
-                    
-                    
-                  </div>
-                </span>
-              </span>
-            </span>
-          </div>
-          </a>
-        </div>
-      
-    </div>
-    <div class="article-info article-info-index">
-      
-      
+        <div class="article-info info-on-right">
+          
 	<div class="article-tag tagcloud">
 		<i class="icon-price-tags icon"></i>
 		<ul class="article-tag-list">
 			 
         		<li class="article-tag-list-item">
-        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++,单例模式</a>
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux,opencv</a>
         		</li>
       		
 		</ul>
 	</div>
 
-      
+          
 
-      
-
-      
-        
-<div class="share-btn share-icons tooltip-left">
-  <div class="tooltip tooltip-east">
-    <span class="tooltip-item">
-      <a href="javascript:;" class="share-sns share-outer">
-        <i class="icon icon-share"></i>
-      </a>
-    </span>
-    <span class="tooltip-content">
-      <div class="share-wrap">
-        <div class="share-icons">
-          <a class="weibo share-sns" href="javascript:;" data-type="weibo">
-            <i class="icon icon-weibo"></i>
-          </a>
-          <a class="weixin share-sns wxFab" href="javascript:;" data-type="weixin">
-            <i class="icon icon-weixin"></i>
-          </a>
-          <a class="qq share-sns" href="javascript:;" data-type="qq">
-            <i class="icon icon-qq"></i>
-          </a>
-          <a class="douban share-sns" href="javascript:;" data-type="douban">
-            <i class="icon icon-douban"></i>
-          </a>
-          <a class="qzone share-sns" href="javascript:;" data-type="qzone">
-            <i class="icon icon-qzone"></i>
-          </a>
-          <a class="facebook share-sns" href="javascript:;" data-type="facebook">
-            <i class="icon icon-facebook"></i>
-          </a>
-          <a class="twitter share-sns" href="javascript:;" data-type="twitter">
-            <i class="icon icon-twitter"></i>
-          </a>
-          <a class="google share-sns" href="javascript:;" data-type="google">
-            <i class="icon icon-google"></i>
-          </a>
         </div>
-      </div>
-    </span>
-  </div>
-</div>
-
-<div class="page-modal wx-share js-wx-box">
-    <a class="close js-modal-close" href="javascript:;"><i class="icon icon-close"></i></a>
-    <p>扫一扫，分享到微信</p>
-    <div class="wx-qrcode">
-      <img src="http://s.jiathis.com/qrcode.php?url=http://yoursite.com/2017/11/04/Singleton/" alt="微信分享二维码">
-    </div>
-</div>
-
-<div class="mask js-mask"></div>
-      
-      <div class="clearfix"></div>
-    </div>
+        <div class="clearfix"></div>
+    </header>
   </div>
 </article>
-
-  
-<nav id="article-nav">
-  
-    <a href="/2017/11/07/DeepCopyOrShallowCopy/" id="article-nav-newer" class="article-nav-link-wrap">
-      <i class="icon-circle-left"></i>
-      <div class="article-nav-title">
-        
-          (no title)
-        
-      </div>
-    </a>
   
   
-    <a href="/2017/10/28/opencv_install/" id="article-nav-older" class="article-nav-link-wrap">
-      <div class="article-nav-title">Linux下安装OpenCV（Redhat+OpenCV3.1）</div>
-      <i class="icon-circle-right"></i>
-    </a>
-  
-</nav>
-
-
-<aside class="wrap-side-operation">
-    <div class="mod-side-operation">
-        
-        <div class="jump-container" id="js-jump-container" style="display:none;">
-            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
-                <i class="icon-font icon-back"></i>
-            </a>
-            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
-                <i class="icon-font icon-plane jump-plane"></i>
-            </div>
-        </div>
-        
-        
-    </div>
-</aside>
-
-
-
-  
-  
+    </div></section>
   
 
-  
-
-  
-
-  
+    
 
 
           </div>
@@ -359,9 +221,9 @@
 	var yiliaConfig = {
 		mathjax: false,
 		isHome: false,
-		isPost: true,
+		isPost: false,
 		isArchive: false,
-		isTag: false,
+		isTag: true,
 		isCategory: false,
 		open_in_new: false,
 		toc_hide_index: true,

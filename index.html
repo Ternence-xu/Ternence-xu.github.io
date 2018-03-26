@@ -147,26 +147,16 @@
           <div id="js-content" class="content-ll">
             
   
-    <article id="post-Singleton" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+    <article id="post-DeepCopyOrShallowCopy" class="article article-type-post  article-index" itemscope itemprop="blogPost">
   <div class="article-inner">
     
     <div class="article-entry" itemprop="articleBody">
       
-        <h2 id="单例模式-饿汉和懒汉-C"><a href="#单例模式-饿汉和懒汉-C" class="headerlink" title="#单例模式(饿汉和懒汉)C++"></a>#单例模式(饿汉和懒汉)C++</h2><p>##普通的单例模式(线程不安全)<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">	singleton()&#123;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">static</span> singleton* g_singleton;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="function"><span class="keyword">static</span> singleton* <span class="title">GetInstance</span><span class="params">()</span></span>;</div><div class="line">&#125;</div><div class="line">singleton* singleton::g_singleton = <span class="literal">NULL</span>;</div><div class="line">singleton* singleton::GetInstance()</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span>(p_singleton==<span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		p = <span class="keyword">new</span> singleton();</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> p;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<font face="微软雅黑" size="2" color="black"><br>上面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。<br></font>
-
-<p>##懒汉和饿汉</p>
-<p><font face="微软雅黑" size="3" color="black">单例模式大致有两种实现方式：懒汉和饿汉</font></p>
-<ul>
-<li><font face="微软雅黑" size="3" color="black">懒汉模式： 懒汉模式就是说不到万不得已就不会去实例化类，也就是说在第一次用到类实例的时候才会去实例化，所以上边的经典方法被归为懒汉实现；</font></li>
-<li><font face="微软雅黑" size="3" color="black">饿汉模式： 饿汉模式就是在单例类定义的时候进行实例化。<br>#####特点和选择</font></li>
-<li><font face="微软雅黑" size="3" color="black">线程比较多的时候,适合使用饿汉模式,以空间换时间</font></li>
-<li><font face="微软雅黑" size="3" color="black">线程比较少的时候,适合使用懒汉模式,以时间换空间<br>##懒汉(线程安全)<br><font face="微软雅黑" size="3" color="black">no.1 加锁</font><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">	singleton()</div><div class="line">	&#123;</div><div class="line">		pthread_mutex_init(&amp;mutex);</div><div class="line">	&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">static</span> singleton* p;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="keyword">static</span> <span class="keyword">pthread_mutex_t</span> mutex;</div><div class="line">	<span class="function"><span class="keyword">static</span> singleton* <span class="title">initance</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"><span class="keyword">pthread_mutex_t</span> singleton::mutex;</div><div class="line">singleton* singleton::p = <span class="literal">NULL</span>;</div><div class="line">singleton* singleton::initance()</div><div class="line">&#123;</div><div class="line">	<span class="keyword">if</span> (p == <span class="literal">NULL</span>)</div><div class="line">	&#123;</div><div class="line">		pthread_mutex_lock(&amp;mutex);</div><div class="line">		<span class="keyword">if</span> (p == <span class="literal">NULL</span>)</div><div class="line">			p = <span class="keyword">new</span> singleton();</div><div class="line">		pthread_mutex_unlock(&amp;mutex);</div><div class="line">	&#125;</div><div class="line">	<span class="keyword">return</span> p;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-</font></li>
-</ul>
-<p><font face="微软雅黑" size="3" color="black">no.2 静态变量</font><br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">    singleton()</div><div class="line">    &#123;</div><div class="line">        pthread_mutex_init(&amp;mutex);</div><div class="line">    &#125;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">    <span class="keyword">static</span> <span class="keyword">pthread_mutex_t</span> mutex;</div><div class="line">    <span class="function"><span class="keyword">static</span> singleton* <span class="title">initance</span><span class="params">()</span></span>;</div><div class="line">    <span class="keyword">int</span> a;</div><div class="line">&#125;;</div><div class="line"></div><div class="line"><span class="keyword">pthread_mutex_t</span> singleton::mutex;</div><div class="line">singleton* singleton::initance()</div><div class="line">&#123;</div><div class="line">    pthread_mutex_lock(&amp;mutex);</div><div class="line">    <span class="keyword">static</span> singleton obj;</div><div class="line">    pthread_mutex_unlock(&amp;mutex);</div><div class="line">    <span class="keyword">return</span> &amp;obj;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-<p>##饿汉<br>饿汉其实本身就是线程安全的,因为在程序运行之前就已经实例化了<br><figure class="highlight c++"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line"><span class="class"><span class="keyword">class</span> <span class="title">singleton</span></span></div><div class="line"><span class="class">&#123;</span></div><div class="line"><span class="keyword">protected</span>:</div><div class="line">	singleton()</div><div class="line">	&#123;&#125;</div><div class="line"><span class="keyword">private</span>:</div><div class="line">	<span class="keyword">static</span> singleton* p;</div><div class="line"><span class="keyword">public</span>:</div><div class="line">	<span class="function"><span class="keyword">static</span> singleton* <span class="title">GetInstance</span><span class="params">()</span></span>;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">singleton* singleton::p = <span class="keyword">new</span> singleton;</div><div class="line">singleton* singleton::GetInstance()</div><div class="line">&#123;</div><div class="line">	<span class="keyword">return</span> p;</div><div class="line">&#125;</div></pre></td></tr></table></figure></p>
-
+        <h2 id=""><a href="#" class="headerlink" title=""></a><font face="微软雅黑" size="3" color="black"></font></h2><p>title: 深拷贝与浅拷贝</p>
+<h2 id="tags-C-拷贝"><a href="#tags-C-拷贝" class="headerlink" title="tags: C++,拷贝"></a>tags: C++,拷贝</h2><p><font face="微软雅黑" size="2" color="black"><br>转载自<a href="http://www.cnblogs.com/BlueTzar/articles/1223313.html博客网" target="_blank" rel="external">http://www.cnblogs.com/BlueTzar/articles/1223313.html博客网</a><br>对于普通类型的对象来说，它们之间的复制是很简单的，例如：<br>
+        
+          <a class="article-more-a" href="/2017/11/07/DeepCopyOrShallowCopy/#more">more >></a>
+        
       
 
       
@@ -178,7 +168,163 @@
 
       
         <p class="article-more-link">
+          <a class="article-more-a" href="/2017/11/07/DeepCopyOrShallowCopy/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-Singleton" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/11/04/Singleton/">单例模式(饿汉和懒汉)C++</a>
+    </h1>
+  
+
+        
+        <a href="/2017/11/04/Singleton/" class="archive-article-date">
+  	<time datetime="2017-11-04T07:58:08.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-11-04</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p><font face="微软雅黑" size="3" color="black"></font></p>
+<h2 id="普通的单例模式-线程不安全"><a href="#普通的单例模式-线程不安全" class="headerlink" title="普通的单例模式(线程不安全)"></a>普通的单例模式(线程不安全)</h2><p>下面的这个单例模式可以说是教科书上的标准模式，但是我们可以从代码上看出创建实例的时间，他是在有这个需求的时候才会创建，但是在多线程中如果有多个线程同时检测这个实例是否存在并创建这个实例的话,就会出现混乱,实例的创建顺序就会产生影响，甚至导致程序崩溃。所以我们说这种模式是一种线程不安全的。<br>
+        
+          <a class="article-more-a" href="/2017/11/04/Singleton/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color4">C++,单例模式</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
           <a class="article-more-a" href="/2017/11/04/Singleton/">展开全文 >></a>
+        </p>
+      
+
+      
+      <div class="clearfix"></div>
+    </div>
+  </div>
+</article>
+
+<aside class="wrap-side-operation">
+    <div class="mod-side-operation">
+        
+        <div class="jump-container" id="js-jump-container" style="display:none;">
+            <a href="javascript:void(0)" class="mod-side-operation__jump-to-top">
+                <i class="icon-font icon-back"></i>
+            </a>
+            <div id="js-jump-plan-container" class="jump-plan-container" style="top: -11px;">
+                <i class="icon-font icon-plane jump-plane"></i>
+            </div>
+        </div>
+        
+        
+    </div>
+</aside>
+
+
+
+
+  
+    <article id="post-opencv_install" class="article article-type-post  article-index" itemscope itemprop="blogPost">
+  <div class="article-inner">
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/10/28/opencv_install/">Linux下安装OpenCV（Redhat+OpenCV3.1）</a>
+    </h1>
+  
+
+        
+        <a href="/2017/10/28/opencv_install/" class="archive-article-date">
+  	<time datetime="2017-10-28T02:45:14.000Z" itemprop="datePublished"><i class="icon-calendar icon"></i>2017-10-28</time>
+</a>
+        
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <ul>
+<li>1.官网下载OpenCV最新版(version:3.1.0—Linux)</li>
+<li>2.在home文件夹下创建一个openCV的文件夹，将下载好的zip格式的OpenCV放在此目录下  </li>
+<li>3.确认是否有安装cmake,如果没有安装，请前往<a href="https://cmake.org/download/" target="_blank" rel="external">https://cmake.org/download/</a>下载安装，下载之后放在home文件夹下，输入
+        
+          <a class="article-more-a" href="/2017/10/28/opencv_install/#more">more >></a>
+        
+      
+
+      
+    </div>
+    <div class="article-info article-info-index">
+      
+      
+	<div class="article-tag tagcloud">
+		<i class="icon-price-tags icon"></i>
+		<ul class="article-tag-list">
+			 
+        		<li class="article-tag-list-item">
+        			<a href="javascript:void(0)" class="js-tag article-tag-list-link color3">Linux,opencv</a>
+        		</li>
+      		
+		</ul>
+	</div>
+
+      
+
+      
+        <p class="article-more-link">
+          <a class="article-more-a" href="/2017/10/28/opencv_install/">展开全文 >></a>
         </p>
       
 
@@ -218,7 +364,7 @@
   <div class="outer">
     <div id="footer-info">
     	<div class="footer-left">
-    		&copy; 2017 Ternence-xu
+    		&copy; 2018 Ternence-xu
     	</div>
       	<div class="footer-right">
       		<a href="http://hexo.io/" target="_blank">Hexo</a>  Theme <a href="https://github.com/litten/hexo-theme-yilia" target="_blank">Yilia</a> by Litten
@@ -299,6 +445,14 @@ getOwnMetadataKeys:function(t){return o(i(t),arguments.length<2?void 0:u(argumen
             <input type="checkbox" q-on="click:toggleTag(e)" q-attr="checked:showTags">
           </label>
           <ul class="article-tag-list" q-show="showTags">
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color4">C++,单例模式</a>
+              </li>
+             
+              <li class="article-tag-list-item">
+                <a href="javascript:void(0)" class="js-tag color3">Linux,opencv</a>
+              </li>
             
             <div class="clearfix"></div>
           </ul>
