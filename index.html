@@ -429,10 +429,14 @@
 
       
         
-          
-            <p><font face="微软雅黑" size="4" color="black"><br>进程内存分布主要分为五个部分:<br>1.text(文本段)<br>2.initialize data(初始化数据段)<br>3.uninitialized data(未初始化数据段)<br>4.heap(堆)<br>5.stack(栈)<br><img src="https://i.imgur.com/T1ANEkj.png" alt=""><br>text:代码段，包含可执行指令。文本段在堆栈的下面，防止堆栈溢出覆盖它，通常代码段是共享的，对于经常执行的程序，只有一个副本需要存储在内存中，代码段是只读的，以防止程序以外修改指令<br>initialize data:通常称为数据段，是程序的虚拟地址空间的一部分，它包含有程序员初始化的全局变量和静态变量，可以进一步划分为只读区域和读写区域<br>uninitialized data:通常称为bss段，这个段的数据在程序开始之前有内核初始化为0，包含所有初始化为0和没有显示初始化的全局变量和静态变量<br>heap:堆是动态内存分配通常发生的部分。内存分配由低到高,动态内存，由用户管理。通过malloc/alloc/realloc、new/new[]申请空间，通过free、delete/delete[]释放所申请的空间<br>stack:存放自动变量，以及每次调用函数时保存的信息。每当调用一个函数时，返回到的地址和关于调用者环境的某些信息的地址，比如一些机器寄存器，就会被保存在栈中。然后，新调用的函数在栈上分配空间，用于自动和临时变量</font></p>
-
-          
+          <p><font face="微软雅黑" size="4" color="black"><br>进程内存分布主要分为五个部分:<br>1.text(文本段)<br>2.initialize data(初始化数据段)<br>
+          <!--noindex-->
+          <div class="post-button text-center">
+            <a class="btn" href="/2018/03/30/C_C++progressMemory/#more" rel="contents">
+              阅读全文 &raquo;
+            </a>
+          </div>
+          <!--/noindex-->
         
       
     </div>
